@@ -18,7 +18,7 @@ async function buscarProduto() {
                 <div class="card-body">
                     <h5 class="card-title">${item.produto}</h5>
                     <p class="card-text">${item.descricao}</p>
-                    <a href="detalhes.html#det${index + 1}" class="btn"><button class="bnt c">Detalhes</button></a>
+                    <a href="detalhes.html?id=${item.id}" class="btn"><button class="bnt c">Detalhes</button></a>
                 </div>
             </div>
         `

@@ -1,33 +1,23 @@
-const nomeRestaurante = "Boca Chilli"
-const urlAPI = `https://tech4produtos.fly.dev/produtos/restaurante=${nomeRestaurante}`
+const parametrosNaUrl = new URLSearchParams(window.location.search)
+const id = parametrosNaUrl.get('id')
 
-async function exibirDetalhes() {
-    const hash = location.hash
+const urlAPI = `https://tech4produtos.fly.dev/produtos/${id}`
 
-    if (!hash) return
-
-    const resposta = await fetch(urlAPI)
-    const produtos = await resposta.json()
-    const meusProdutos = produtos.filter(item => item.restaurante === nomeRestaurante)
-
-    const indice = Number(hash.replace("#det", "")) - 1
-    const produtoSelecionado = meusProdutos[indice]
-
-    if (!produtoSelecionado) return
-
-    const idRealAPI = produtoSelecionado.id || produtoSelecionado._id
-    const respostaDetalhe = await fetch(`https://tech4produtos.fly.dev/produtos/${idRealAPI}`)
-    const dados = await respostaDetalhe.json()
-
-    const cardElemento = document.querySelector(hash)
-    if (cardElemento) {
-        cardElemento.innerHTML = `
-            <h2>${dados.produto}</h2>
-            <img src="${dados.imagem}" alt="${dados.produto}" class="img-fluid">
-            <p class="paqua">${dados.descricao}</p>
-            <a href="#comprar" class="btn"><button class="bnt c">Comprar</button></a>
-        `;
-    }
+const buscarPorId = async () => {
+    const resposta = await fetch(`${apiUrl}`)
+    const produto = await resposta.json() 
+    return produto;
 }
 
-exibirDetalhes()
+async function detalheproduto() {
+    const produto = await buscarPorId()
+    const divDetalhes = document.getElementById("det1")
+    divDetalhes.innerHTML = `
+            <h2>${produto.nome}</h2>
+            <img src="${produto.imagem}" alt="${produto.nome}" class="img-fluid">
+            <p class="paqua">${produto.descricao}</p>
+            <a href="detalhes.html#comprar" class="btn"><button class="bnt c">Comprar</button></a>
+    `
+}
+
+detalheproduto()
